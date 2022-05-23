@@ -47,29 +47,29 @@ Realize the best thing you can do to learn to program in any environment is to
 program **a lot**. These small projects are only the beginning of that
 journey; you'll have to do more on your own to truly become proficient.
 
-* [Unix Utilities](initial-utilities) (cat, grep, zip/unzip)
-* Sort (text-based)
-* Sort (binary)
-* [Reverse](initial-reverse) (very simple reverse program)
+- [ ] [Unix Utilities](initial-utilities) (cat, grep, zip/unzip)
+- [ ] Sort (text-based)
+- [ ] Sort (binary)
+- [ ] [Reverse](initial-reverse) (very simple reverse program)
 
 ### Processes and Scheduling
 
-* [Shell](processes-shell)
+- [ ] [Shell](processes-shell)
 
 ### Virtual Memory
 
-* Memory Allocator
+- [ ] Memory Allocator
 
 ### Concurrency
 
-* [Web Server](concurrency-webserver)
-* [Parallel Zip](concurrency-pzip)
-* [MapReduce](concurrency-mapreduce)
-* Web Crawler
+- [ ] [Web Server](concurrency-webserver)
+- [ ] [Parallel Zip](concurrency-pzip)
+- [ ] [MapReduce](concurrency-mapreduce)
+- [ ] Web Crawler
 
 ### File Systems
 
-* [File System Checker](filesystems-checker)
+- [ ] [File System Checker](filesystems-checker)
 
 ### Distributed Systems
 
@@ -87,19 +87,19 @@ and install the tools you'll need.
 
 ### Initial Projects
 
-* [Intro To xv6](initial-xv6)
+- [ ] [Intro To xv6](initial-xv6)
 
 ### Processes and Scheduling
 
-* [Scheduling (Lottery)](scheduling-xv6-lottery)
+- [ ] [Scheduling (Lottery)](scheduling-xv6-lottery)
 
 ### Virtual Memory
 
-* [Virtual Memory (Null Pointer and Read-Only Regions)](vm-xv6-intro)
+- [ ] [Virtual Memory (Null Pointer and Read-Only Regions)](vm-xv6-intro)
 
 ### Concurrency
 
-* [Kernel Threads (Basic Implementation)](concurrency-xv6-threads)
+- [ ] [Kernel Threads (Basic Implementation)](concurrency-xv6-threads)
 
 ### File Systems
 
