@@ -39,16 +39,46 @@ run_test () {
     return 
 }
 
+# output diff for failed test
+output_diff () {
+    local testnum=$1
+    local filetype=$2
+    
+    echo -e "\n\t\t${GREEN}diff $testdir/$testnum.$filetype tests-out/$testnum.$filetype${NONE}"
+    diff "$testdir/$testnum.$filetype" "tests-out/$testnum.$filetype"
+    echo ""
+}
+
+# Output what is being run in the command line
+output_test_run () {
+    local testnum=$1
+
+    echo -e "\n\t\t${GREEN}cat $testdir/$testnum.run${NONE}"
+    cat "$testdir/$testnum.run"
+}
+
 print_error_message () {
     local testnum=$1
     local contrunning=$2
-    local filetype=$3
+    local showdiff=$3
+    local showrun=$4
+    local filetype=$5
+
     builtin echo -e "test $testnum: ${RED}$testnum.$filetype incorrect${NONE}"
     echo "  what results should be found in file: $testdir/$testnum.$filetype"
     echo "  what results produced by your program: tests-out/$testnum.$filetype"
     echo "  compare the two using diff, cmp, or related tools to debug, e.g.:"
     echo "  prompt> diff $testdir/$testnum.$filetype tests-out/$testnum.$filetype"
     echo "  See tests/$testnum.run for what is being run"
+
+    if (( $showdiff == 1 )); then
+        output_diff $testnum $filetype
+    fi
+
+    if (( $showrun == 1 )); then
+        output_test_run $testnum
+    fi
+
     if (( $contrunning == 0 )); then
 	exit 1
     fi
@@ -70,15 +100,17 @@ check_test () {
     fi
 }
 
-# run_and_check testdir testnumber contrunning verbose printerror
+# run_and_check testdir testnumber contrunning showdiff verbose printerror
 #   testnumber: the test to run and check
 #   printerrer: if 1, print an error if test does not exist
 run_and_check () {
     local testdir=$1
     local testnum=$2
     local contrunning=$3
-    local verbose=$4
-    local failmode=$5
+    local showdiff=$4
+    local showrun=$5
+    local verbose=$6
+    local failmode=$7
 
     if [[ ! -f $testdir/$testnum.run ]]; then
 	if (( $failmode == 1 )); then
@@ -106,16 +138,16 @@ run_and_check () {
 	fi
     else
 	if (( $rccheck == 1 )); then
-	    print_error_message $testnum $contrunning rc
+	    print_error_message $testnum $contrunning $showdiff $showrun rc
 	fi
 	if (( $outcheck == 1 )); then
-	    print_error_message $testnum $contrunning out
+	    print_error_message $testnum $contrunning $showdiff $showrun out
 	fi
 	if (( $errcheck == 1 )); then
-	    print_error_message $testnum $contrunning err
+	    print_error_message $testnum $contrunning $showdiff $showrun err
 	fi
 	if (( $othercheck == 1 )); then
-	    print_error_message $testnum $contrunning other
+	    print_error_message $testnum $contrunning $showdiff $showrun other
 	fi
     fi
 }
@@ -124,6 +156,8 @@ run_and_check () {
 usage () {
     echo "usage: run-tests.sh [-h] [-v] [-t test] [-c] [-s] [-d testdir]"
     echo "  -h                help message"
+    echo "  -x                show diff for failed test"
+    echo "  -r                show run for failed test"
     echo "  -v                verbose"
     echo "  -t n              run only test n"
     echo "  -c                continue even after failure"
@@ -138,10 +172,12 @@ usage () {
 verbose=0
 testdir="tests"
 contrunning=0
+showdiff=0
+showrun=0
 skippre=0
 specific=""
 
-args=`getopt hvsct:d: $*`
+args=`getopt hvscxrt:d: $*`
 if [[ $? != 0 ]]; then
     usage; exit 1
 fi
@@ -158,6 +194,12 @@ for i; do
         shift;;
     -c)
         contrunning=1
+        shift;;
+    -x)
+        showdiff=1
+        shift;;
+    -r)
+        showrun=1
         shift;;
     -s)
         skippre=1
@@ -200,14 +242,14 @@ fi
 
 # run just one test
 if [[ $specific != "" ]]; then
-    run_and_check $testdir $specific $contrunning $verbose 1
+    run_and_check $testdir $specific $contrunning $showdiff $showrun $verbose 1
     exit 0
 fi
 
 # run all tests
 (( testnum = 1 ))
 while true; do
-    run_and_check $testdir $testnum $contrunning $verbose 0
+    run_and_check $testdir $testnum $contrunning $showdiff $showrun $verbose 0
     (( testnum = $testnum + 1 ))
 done
 
