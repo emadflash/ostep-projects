@@ -54,7 +54,7 @@ journey; you'll have to do more on your own to truly become proficient.
     - [ ] wunzip
 - [ ] Sort (text-based)
 - [ ] Sort (binary)
-- [ ] [Reverse](initial-reverse) (very simple reverse program)
+- [X] [Reverse](initial-reverse) (very simple reverse program)
 
 ### Processes and Scheduling
 
